@@ -1,0 +1,409 @@
+<head></head>
+
+<body>
+ <div id="bundlerAppProducts" class="{% if block.settings.layout %} verticalLay {% endif %}{% case block.settings.vertical_alignment %}{% when '4' %}{% when '3' %}threeGrid{% when '2' %}twoGrid{% endcase %}">
+ </div>
+</body>
+
+{% style %}
+  #bundlerAppProducts h3{
+    text-align: center;
+    text-transform: capitalize;
+    color: {{ block.settings.colourH }};
+    {% case block.settings.headingSize %}
+    {% when 'small' %}
+      font-size: 18px;
+    {% when 'medium' %}
+      font-size: 36px;
+    {% when 'large' %}
+      font-size: 54px;
+    {% endcase %}
+  }
+  #bundlerAppProducts{
+    padding: 0px 30px;
+  }
+  #bundlerAppProducts .bundle-part img{
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+  }
+  #bundlerAppProducts .bundle-part svg{
+    height: 200px;
+    width: 200px;
+    background-color: beige;
+  }
+  #bundlerAppProducts .bundle-part{
+    padding-top: 30px;
+  }
+  #bundlerAppProducts .bundle-parts .bundle-part:not(:last-child),  #bundlerAppProducts .bundle-parts .bundle-part:not(:nth-child(4n)){
+    position: relative;
+  }
+  #bundlerAppProducts .bundle-parts .bundle-part:nth-child(4n){
+    position: static;
+  }
+  #bundlerAppProducts .bundle-parts .bundle-part:not(:last-child)::after{
+    content: '';
+    position: absolute;
+    right: -30px;
+    top: 0;
+    bottom: 0;
+    height: 30px;
+    width: 30px;
+    margin: auto;
+    background-image: url('https://cdn.shopify.com/s/files/1/0595/4833/6226/files/icons8-plus.svg?v=1723186535');
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+  #bundlerAppProducts .bundle-parts .bundle-part{
+    padding-top: 0px;
+    width: 22%;
+  }
+  #bundlerAppProducts.threeGrid .bundle-parts .bundle-part{
+    width:30%;
+  }
+  #bundlerAppProducts.threeGrid .bundle-parts .bundle-part:not(:last-child),  #bundlerAppProducts .bundle-parts .bundle-part:not(:nth-child(3n)){
+    position: relative;
+  }
+  #bundlerAppProducts.threeGrid .bundle-parts .bundle-part:nth-child(3n){
+    position: static;
+  }
+  #bundlerAppProducts.threeGrid .bundle-parts .bundle-part:nth-child(3n)::after{
+    display: none;
+  }
+  #bundlerAppProducts.twoGrid .bundle-parts .bundle-part{
+    width:47%;
+  }
+  #bundlerAppProducts.twoGrid .bundle-parts .bundle-part:not(:last-child),  #bundlerAppProducts .bundle-parts .bundle-part:not(:nth-child(2n)){
+    position: relative;
+  }
+  #bundlerAppProducts.twoGrid .bundle-parts .bundle-part:nth-child(2n){
+    position: static;
+  }
+  #bundlerAppProducts.twoGrid .bundle-parts .bundle-part:nth-child(2n)::after{
+    display: none;
+  }
+  .bundle-parts{
+    display: flex;
+    padding-top: 30px;
+    align-items: stretch;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  #bundlerAppProducts.verticalLay .bundle-parts{
+    flex-direction: column;
+    align-items: center;
+    gap:50px;
+  }
+  #bundlerAppProducts.verticalLay .bundle-parts .bundle-part:not(:last-child)::after{
+      bottom: -50px;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      top:auto;
+    }
+  #bundlerAppProducts .bundle-parts .bundle-part img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+  #bundlerAppProducts .bundle-part, #bundlerAppProducts .bundle-part span.bundle-title{
+    text-align: left;
+    font-weight: 700;
+    text-transform: capitalize;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-size: 0.9em;
+    line-height: 16px;
+    flex-direction: column;
+  }
+  #bundlerAppProducts .bundle-part span.bundle-title{
+    max-width: 20ch;
+    line-height: 15px;
+    color: {{ block.settings.colourT }};
+  }
+  #bundlerAppProducts .bundle-part span.bundle-price{
+      font-size: 0.9em;
+      color: black;
+      font-weight: 300;
+      color: {{ block.settings.colourP }};
+  }
+  .bundle-title-price{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 10px;
+    width: 100%;
+  }
+  #bundlerAppProducts .bundle-part a{
+    text-decoration: none;
+
+  }
+  @media only screen and (max-width:991px){
+    #bundlerAppProducts .bundle-parts .bundle-part{
+      width: 47.2%;
+    }
+    #bundlerAppProducts.threeGrid .bundle-parts .bundle-part{
+      width: 47.2%;
+    }
+    #bundlerAppProducts.twoGrid .bundle-parts .bundle-part{
+      width: 47.2%;
+    }
+    #bundlerAppProducts .bundle-parts .bundle-part:nth-child(2n){
+    position: static;
+    }
+  }
+  @media only screen and (max-width:767px){
+    #bundlerAppProducts .bundle-parts .bundle-part:nth-child(2n){
+    position: relative;
+  }
+  #bundlerAppProducts .bundle-parts .bundle-part:nth-child(4n){
+    position: relative;
+  }
+    #bundlerAppProducts .bundle-parts .bundle-part{
+      width: 100%;
+    }
+    #bundlerAppProducts .bundle-parts .bundle-part:not(:last-child)::after{
+      bottom: -50px;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      top:auto;
+    }
+    .bundle-parts{
+      gap: 50px;
+    }
+  }
+{% endstyle %}
+
+<script>
+  var curr = {{ shop.currency | json }};
+  var formatF = {{ shop.money_format | json }};
+
+  function formatMoney(cents, format) {
+  if (typeof cents === 'string') cents = cents.replace('.', '');
+  var value = '';
+  var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+  var formatString = format || formatF;
+
+  function defaultOption(opt, def) {
+    return (typeof opt == 'undefined' ? def : opt);
+  }
+
+  function formatWithDelimiters(number, precision, thousands, decimal) {
+    precision = defaultOption(precision, 2);
+    thousands = defaultOption(thousands, ',');
+    decimal = defaultOption(decimal, '.');
+
+    if (isNaN(number) || number == null) { return 0; }
+
+    number = (number/100.0).toFixed(precision);
+
+    var parts = number.split('.'),
+        dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands),
+        cents = parts[1] ? (decimal + parts[1]) : '';
+
+    return dollars + cents;
+  }
+
+  switch(formatString.match(placeholderRegex)[1]) {
+    case 'amount':
+      value = formatWithDelimiters(cents, 2);
+      break;
+    case 'amount_no_decimals':
+      value = formatWithDelimiters(cents, 0);
+      break;
+    case 'amount_with_comma_separator':
+      value = formatWithDelimiters(cents, 2, '.', ',');
+      break;
+    case 'amount_no_decimals_with_comma_separator':
+      value = formatWithDelimiters(cents, 0, '.', ',');
+      break;
+  }
+
+  return formatString.replace(placeholderRegex, value);
+}
+
+  function testProxy() {
+    const base = '{{ shop.url }}'
+      const baseUrl = `${base}/apps/proxyTest`
+        fetch(baseUrl,{
+          method:'GET',
+          redirect: 'manual',
+          headers:{
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+          }).then(res => res.json()).then(x =>{
+            const result = x.message.bundles;
+            result.forEach(bundle => {
+        // Extract the product ID from the bundle ProductBundleId
+        const bundleProductId = bundle.ProductBundleId.replace('gid://shopify/Product/', '');
+
+        // Check if the current product is the bundle product
+        if ('{{ product.id }}' === bundleProductId) {
+  const products = JSON.parse(bundle.products);
+  let bundleProductElement = `
+     <h3>{{ block.settings.headingB }}</h3>
+    <div class="bundle-parts">
+  `;
+
+  // Use Promise.all to wait for all fetch calls to complete
+  Promise.all(products.map(product => 
+    fetch(window.Shopify.routes.root + `products/${product.handle}.js`)
+      .then(response => response.json())
+      .then(prod => {
+        var price = formatMoney(prod.price, formatF);
+        return `
+          <div class="bundle-part">
+              <img src="${product.images[0].originalSrc}" alt="${product.title}">
+              <div class="bundle-title-price">
+                <span class="bundle-title">${product.title}</span>
+                <span class="bundle-price">${price}</span>
+              </div>
+          </div>
+        `;
+      })
+  )).then(productElements => {
+    bundleProductElement += productElements.join('');
+    bundleProductElement += `
+      </div>
+    `;
+
+    // Inject the HTML structure
+    document.getElementById('bundlerAppProducts').innerHTML = bundleProductElement;
+  }).catch(error => {
+    console.error('Error fetching product data:', error);
+  });
+}  else {
+          // Check if the current product is part of the bundle
+          const products = JSON.parse(bundle.products);
+          products.forEach(product =>{
+            if ('{{ product.id  }}' === product.id.replace('gid://shopify/Product/', '')) {
+              fetch(window.Shopify.routes.root + `products/${bundle.ProductHandle}.js`)
+            .then(response => response.json())
+            .then(prod => {
+              var image;
+              
+              if(!prod.image){
+                  image = `{{ 'product-1' | placeholder_svg_tag }}`
+              }
+              else{
+                  image = `<img src="${prod.image.src}" alt="${bundle.bundleName}">`
+              }
+              var price = formatMoney(prod.price, formatF);
+              const bundleProductElement = `
+            <h3>{{ block.settings.headingC }}</h3>
+            <div class="bundle-part">
+              <a href="{{ shop.url }}/products/${bundle.ProductHandle}">
+                ${image}
+                <div class="bundle-title-price">
+                <span class="bundle-title">${bundle.bundleName}</span>
+                <span class="bundle-price">${price}</span>
+                </div>
+              </a>
+            </div>
+          `;
+
+          document.getElementById('bundlerAppProducts').innerHTML = bundleProductElement;
+            });
+          }
+          })
+          
+        }
+      });
+          } );
+}
+
+document.addEventListener("DOMContentLoaded", (event) => {
+  testProxy();
+});
+</script>
+{% schema %}
+{
+  "name": "Bundle Info",
+  "target": "section",
+  "settings": [
+    {
+      "type":"text",
+      "id": "headingB",
+      "label":"Heading For Bundle Product",
+      "default":"This bundle is made of these products"
+    },
+    {
+      "type":"text",
+      "id": "headingC",
+      "label":"Heading For Single Product",
+      "default":"This product is a part of bundle"
+    },
+    { 
+      "type": "color",
+      "id": "colourH",
+      "label": "Heading Colour",
+      "default": "#111111" 
+    },
+    { 
+      "type": "color",
+      "id": "colourT",
+      "label": "Product Title Colour",
+      "default": "#111111" 
+    },
+    { 
+      "type": "color",
+      "id": "colourP",
+      "label": "Product Price Colour",
+      "default": "#111111" 
+    },
+    {
+      "type": "select",
+      "id": "headingSize",
+      "label": "Heading Size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "small"
+    },
+    {
+      "type":"checkbox",
+      "id":"layout",
+      "label":"Vertical Layout",
+      "default":false
+    },  
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Desktop Grid Per Row",
+      "options": [
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "4"
+    }
+  ]
+}
+{% endschema %}
+
